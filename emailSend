@@ -1,0 +1,56 @@
+<html>
+
+<head>
+
+
+<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+<script>
+
+window.setInterval(function(){
+	var ms = (new Date).getTime();
+	//firebase
+	firebase.database().ref('/emails/').once('value').then(function(snapshot) {
+		for i in snapshot{
+           	for j in range(snapshot){
+           		if (ms>snapshot.i.j)
+           			console.log(snapshot.i.j)
+           			//sendemail & delete time
+           	}
+           }
+        });
+}
+
+  
+}, 5000);
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBjzq9gOJHAsgGnE4qRemzMnHX2G6WUtP8",
+    authDomain: "ba-and-web-design.firebaseapp.com",
+    databaseURL: "https://ba-and-web-design.firebaseio.com",
+    storageBucket: "ba-and-web-design.appspot.com",
+    messagingSenderId: "1025448528118"
+  };
+  firebase.initializeApp(config);
+
+
+
+function get(){
+     		userNAME = document.getElementById("userIDGET").value ;
+     		getMyUserData(userNAME);
+     }
+</script>
+
+	<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_hbTwfJ5uOCmTVdkO8LvkD");
+   })();
+
+</script>
+
+</head>
+<body>
+	
+</body>
+
+</html>
