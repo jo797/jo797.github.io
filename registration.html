@@ -151,18 +151,19 @@ img.emoji {
 function writeUserData(data) {
 
     firebase.database().ref('email/'+ data + '/').set({
-        '1005': 'PRE1',
-        '1030': 'PRE2',
-        '1045': 'PRE3',
-        '1100': 'PRE4',
-        '1530': 'POST1',
-        '1600': 'POST2',
+        '1490141100': 'PRE1',
+        '1490142600': 'PRE2',
+        '1490143500': 'PRE3',
+        '1490144400': 'PRE4',
+        '1490160600': 'POST1',
+        '1490164200': 'POST2',
     });
 }
 
 //button functionality sending email to database
 function userEmail() {
     var data = document.getElementById("myText").value ;
+    console.log(data)
     var editData = data.split('.').join('|');
     console.log(editData);
    	writeUserData(editData);
