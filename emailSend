@@ -1,28 +1,17 @@
 <html>
 
 <head>
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_hbTwfJ5uOCmTVdkO8LvkD");
+   })();
 
+</script>
 
 <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 <script>
-
-window.setInterval(function(){
-	var ms = (new Date).getTime();
-	//firebase
-	firebase.database().ref('/emails/').once('value').then(function(snapshot) {
-		for i in snapshot{
-           	for j in range(snapshot){
-           		if (ms>snapshot.i.j)
-           			console.log(snapshot.i.j)
-           			//sendemail & delete time
-           	}
-           }
-        });
-}
-
-  
-}, 5000);
-  // Initialize Firebase
+  var counter = 0; //count number of emails sent
   var config = {
     apiKey: "AIzaSyBjzq9gOJHAsgGnE4qRemzMnHX2G6WUtP8",
     authDomain: "ba-and-web-design.firebaseapp.com",
@@ -32,21 +21,86 @@ window.setInterval(function(){
   };
   firebase.initializeApp(config);
 
+//window.setInterval(function(){
+	//var curTime = (new Date).getTime();
+  var curTime = 1489970000;
+	//firebase
+  getMyUserEmail(curTime, counter);
+  
 
 
-function get(){
-     		userNAME = document.getElementById("userIDGET").value ;
-     		getMyUserData(userNAME);
-     }
+
+
+
+
+  
+//}, 1000);
+  // Initialize Firebase
+
+
+
+    function getMyUserEmail(currentTime, counter) {
+        var ref = firebase.database().ref('email/');
+        ref.once('value').then(function(snapshot) {
+          
+
+          for (var i in snapshot.val()){
+            var email = i.split('|').join('.');
+            //comparing the time to see when to send email
+            console.log(email)
+            emailjs.send("jo", "PRE1", {emailaddr: 'j.cheung.797@hotmail.com', title:'SPEAK Melbourne Showcase', html:'<div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p><img src="https://jo797.github.io/startEmail.png" alt="" width="609" height="201" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: center;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: center;"><span style="font-size: 14pt;"> <strong>5 AUTHORITIES that will change your thinking in Melbourne&nbsp; for the&nbsp; </strong> <strong>SPEAK! Melbourne&nbsp;Showcase.</strong></span></p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">These Speakers are the best of the best:</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Peter Baines</strong> - CEO and Founder for Hands Across the Water</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Sam Cawthorn</strong> - Young Australian of the Year and International Best Selling Author</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Dr Rosemary McCallum</strong> - Human Behaviour Expert</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Bernard Kelly</strong> - Best Selling Author and Leadership Thought Leader</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Cat Levine</strong> - International Speaker &amp; Narcissism Expert</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Transcendent communication is what these speakers will showcase at SPEAK! These</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">outstanding speakers, which we have hand-picked for you, will inform &amp; educate you.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">They will persuade you to see things differently and inspire you through powerful stories.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">They will transform your thinking and will transcend you into an experience that you have</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">never experienced from a speaker before.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Please view <a href="https://jo797.github.io/index.html">this line-up of Speakers</a>&nbsp;and the details of SPEAK!</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Register Here: <a href="https://jo797.github.io/registration.html">http://speakmelbourneshowcase.com/</a></p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Looking forward to seeing you there.&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p>&nbsp;</p></div>'});
+            for(var j in snapshot.val()[i]){
+              counter=counter+1;
+              if (currentTime >= j){
+                //console.log(snapshot.val()[i][j]);
+                writeUserData(j,i); //deletes a time from the list of emails
+                switch(counter) {
+                  case 1:
+                        //PRE1
+                        emailjs.send("jo", "PRE1", {emailaddr: email, title:'SPEAK Melbourne Showcase', html:'<div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p><img src="https://jo797.github.io/startEmail.png" alt="" width="609" height="201" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: center;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: center;"><span style="font-size: 14pt;"> <strong>5 AUTHORITIES that will change your thinking in Melbourne&nbsp; for the&nbsp; </strong> <strong>SPEAK! Melbourne&nbsp;Showcase.</strong></span></p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">These Speakers are the best of the best:</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Peter Baines</strong> - CEO and Founder for Hands Across the Water</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Sam Cawthorn</strong> - Young Australian of the Year and International Best Selling Author</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Dr Rosemary McCallum</strong> - Human Behaviour Expert</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Bernard Kelly</strong> - Best Selling Author and Leadership Thought Leader</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><strong>Cat Levine</strong> - International Speaker &amp; Narcissism Expert</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Transcendent communication is what these speakers will showcase at SPEAK! These</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">outstanding speakers, which we have hand-picked for you, will inform &amp; educate you.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">They will persuade you to see things differently and inspire you through powerful stories.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">They will transform your thinking and will transcend you into an experience that you have</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">never experienced from a speaker before.</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Please view <a href="https://jo797.github.io/index.html">this line-up of Speakers</a>&nbsp;and the details of SPEAK!</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Register Here: <a href="https://jo797.github.io/registration.html">http://speakmelbourneshowcase.com/</a></p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;">Looking forward to seeing you there.&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eee; font-style: italic;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p>&nbsp;</p></div>'});
+
+                      break;
+                  case 2:
+                        //PRE2
+                        emailjs.send("jo", "PRE1", {emailaddr: email, title:'Comic of the Year to MC SPEAK Melbourne Showcase', html:'<div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p>&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Good afternoon</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Thank you for registering and confirming your attendance at the SPEAK! Melbourne Showcase on 20th March&nbsp;2017 at 2.30pm.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">We have some amazing NEWS that, "Comic Of The Year", <strong>Marty Wilson</strong> will be MC`ing the SPEAK! Melbourn Showcase.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Together with an amazing lineup of speakers, This showcase is set to be the event of the year.</p><p style="padding: 12px; border-left: 6px solid #eeeeee;">Please ensure that you arrive at <span style="text-decoration: underline;">11:30pm at Floor 7, Melbourne&nbsp;CBD</span>. Here you will be greeted with refreshments and a goody bag as well as lucky door prize.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Looking forward to seeing you there.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">To your success</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Jodie Spiteri-James</strong></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Programs Director</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><img style="float: left;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p>&nbsp;</p></div>'});
+                      break;
+                  case 3:
+                        //PRE3
+                        emailjs.send("jo", "PRE1", {emailaddr: email, title:'SPEAK Melbourne Showcase Tickets', html:'<p>&nbsp;</p><div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p>&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Hi</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><span style="color: #000000;"><span style="font-size: 8pt;">We&rsquo;re looking forward to seeing you on Monday for the&nbsp;</span></span><strong><span style="color: #000000;"><span style="font-size: 8pt;"><span style="font-weight: normal;"><b>SPEAK Melbourne Showcase</b></span></span></span></strong><span style="color: #000000;"><span style="font-size: 8pt;">.</span></span></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">We have managed to secure another dozen seats and would like to offer them to you first in case you can bring others along.</span></span></span></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">We have catered for this event and have some extra canap&eacute;s and drinks for your guests. If you are bringing a friend or colleague, please just let us know their name so that we can add them to the door list.</span></span></span></p><p style="padding: 12px; border-left: 6px solid #eeeeee;"><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">The tickets for your friends or colleagues are complimentary, and are our way of saying thank you for supporting our speakers.</span></span></span></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">See you on Monday,</span></span></span></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Jodie Spiteri-James</strong></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Programs Director</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><img style="float: left;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><em><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">PS. the event details are:</span></span></span></em></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><em><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">Date: Monday,&nbsp;March 20th,&nbsp;2017</span></span></span></em></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><em><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">Time: 11:30pm registration for a 12:00pm start, concluding at 3:00pm with canap&eacute;s and drinks served after.</span></span></span></em></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><em><span style="color: #000000;"><span style="font-family: Verdana, Arial, Helvetica, sans-serif;"><span style="font-size: 8pt;">Location: Level 7,&nbsp;Melbourne</span></span></span></em></p><p>&nbsp;</p></div>'});
+
+                      break;
+                  case 4:
+                        //PRE4
+                          emailjs.send("jo", "PRE1", {emailaddr: email, title:'Reminder', html:'<p>&nbsp;</p><div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p>&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Hi ,</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Our <strong>SPEAK Melbourne Showcase</strong> event is happening tomorrow, and we are excited to share this occasion with you!</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Here are the event details for you:</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Date:</strong> Monday, March&nbsp;20, 2017</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Time:</strong> 11:30pm registration for a 12:00pm start, concluding at 3:00pm with canap&eacute;s and drinks served after.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Location:</strong> Level 7,&nbsp;Melbourne&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><a href="https://www.google.ca/maps/place/Melbourne+VIC+3004,+Australia/@-37.8274851,144.9527136,14z/data=!3m1!4b1!4m5!3m4!1s0x6ad642af0f11fd81:0x5045675218ce7e0!8m2!3d-37.813611!4d144.963056!6m1!1e1">[Click here for Google Maps link to address above]</a></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">This event is catered for you so please ensure you are there to enjoy!</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">See you tomorrow,</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Jodie Spiteri-James</strong></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Programs Director</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><img style="float: left;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">&nbsp;&nbsp;</p></div>'});
+
+                      break;
+                  case 5:
+                        //POST1
+                        emailjs.send("jo", "PRE1", {emailaddr: email, title:'Thank you', html:'<p>&nbsp;</p><div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p>&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Hi ,</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">We hope you`ve enjoyed your time at<strong> SPEAK Melbourne Showcase</strong> event listening to all of the wonderful, inspiring speakers.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">The event was a great success and we would love some feedback to improve it for next year.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Looking forward to see you next year to learn more about how to improve your communication skills which will&nbsp;last a lifetime.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Thank you,</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Jodie Spiteri-James</strong></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Programs Director</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><img style="float: left;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">&nbsp;&nbsp;</p></div>'});
+
+                      break;
+                  case 6:
+                        //POST2
+                        emailjs.send("jo", "PRE1", {emailaddr: email, title:'SPEAK Melbourne Showcase', html:'<p>&nbsp;</p><div style="border: 1px solid #e5e5e5; padding: 15px 20px; max-width: 600px; margin: auto;"><p>&nbsp;</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">A week ago we shared with you a Speaking Showcase event in Melbourne&nbsp;of some of the hottest</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">speakers in the world.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">The response has been overwhelming, however we still have 14 seats left and our speakers want</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">the event filled.</p><p style="padding: 12px; border-left: 6px solid #eeeeee;"><span style="text-decoration: underline;">SPEAK! Melbourne&nbsp;Showcase.</span></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">5 AUTHORITIES that will transform your thinking.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Peter Baines -</strong> CEO and Founder for Hands Across the Water</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Sam Cawthorn -</strong> Young Australian of the Year and International Best Selling Author</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Dr Rosemary McCallum -</strong> Human Behaviour Expert</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Bernard Kelly -</strong> Best Selling Author and Leadership Thought Leader</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Cat Levine -</strong> International Speaker &amp; Narcissism Expert</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Be informed, persuaded, inspired, transformed and transcended.</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Please view this line-up of Speakers and the details of SPEAK!</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Here: h<a href="https://jo797.github.io/index.html">ttp://speakmelbourneshowcase.com/</a></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Looking forward to seeing you there:</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><strong>Jodie Spiteri-James</strong></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">Programs Director</p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;"><img style="float: left;" src="https://events.speakers.institute/communication/2017/images/speakers1.png" alt="End" width="200" height="74" /></p><p style="padding: 12px; border-left: 6px solid #eeeeee; text-align: left;">&nbsp;&nbsp;</p></div>'});
+                      break;
+
+              }     
+            
+            };
+            console.log(snapshot.val());
+            console.log(snapshot.val()[i].key);
+          };
+          };
+        });
+    }
+
+function writeUserData(t, email) {
+  console.log('email/' + email + "/")
+  firebase.database().ref('email/'+email+'/'+t).set(null);
+}
 </script>
 
-	<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init("user_hbTwfJ5uOCmTVdkO8LvkD");
-   })();
-
-</script>
+	
 
 </head>
 <body>
